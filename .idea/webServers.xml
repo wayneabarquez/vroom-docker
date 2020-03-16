@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="9a645b7c-46ec-4a65-ae65-a72aa8c726d8" name="vroom" url="http://192.168.178.8">
+        <fileTransfer host="192.168.178.8" port="21" rootFolder="/var/www/vroom">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="21" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

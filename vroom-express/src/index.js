@@ -17,7 +17,7 @@ const HTTP_ERROR_CODE = 400;
 const HTTP_TOOLARGE_CODE = 413;
 const HTTP_INTERNALERROR_CODE = 500;
 
-const JOB_LIMIT_TO_FORCE_TO_FILE = 100;
+const JOB_LIMIT_TO_FORCE_TO_FILE = 20000;
 
 // Enable cross-origin ressource sharing.
 app.use((req, res, next) => {
@@ -210,8 +210,8 @@ const execCallback = function(req, res) {
       vroomDataFilename = '',
       reqUUID = '';
 
-  const RESULT_DIR = args.logdir + '/result/',
-        RESULT_BASE_URL = 'http://104.198.38.65:3000/vroom/result/';
+  let RESULT_DIR = args.logdir + '/',
+      RESULT_BASE_URL = 'http://104.198.38.65:3000/vroom/result/';
 
   vroom.stdout.on('data', data => {
     let now = new Date();
@@ -236,12 +236,13 @@ const execCallback = function(req, res) {
         'VROOM_RESULT_URL': RESULT_BASE_URL + vroomDataFilename
       };
       solution += JSON.stringify(URL_RESULT);
+      fs.writeFileSync(RESULT_DIR + vroomDataFilename, data.toString());
     }  else {
       solution += data.toString();
+      fs.writeFileSync(RESULT_DIR + vroomDataFilename, solution);
     }   
 
     fs.writeFileSync(RESULT_DIR + timeCompletedFilename, processTimeMessage);
-    fs.writeFileSync(RESULT_DIR + vroomDataFilename, solution);
   });
 
   vroom.on('close', (code, signal) => {
@@ -282,7 +283,7 @@ app.post('/', [
 
 app.get('/vroom/result/:filename', function(req, res){
   const fileName = req.params.filename;
-  const file = `${__dirname}/result/${fileName}`;
+  const file = args.logdir + '/' + fileName;
 
   res.download(file); // Set disposition and send it.
 });

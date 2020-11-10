@@ -17,7 +17,11 @@ const HTTP_ERROR_CODE = 400;
 const HTTP_TOOLARGE_CODE = 413;
 const HTTP_INTERNALERROR_CODE = 500;
 
-const JOB_LIMIT_TO_FORCE_TO_FILE = 100;
+const JOB_LIMIT_TO_FORCE_TO_FILE = 20000;
+
+const RESULT_DIR = args.logdir + '/result/',
+      RESULT_BASE_URL = 'http://34.68.111.95:3000/vroom/result/';
+
 
 // Enable cross-origin ressource sharing.
 app.use((req, res, next) => {
@@ -209,9 +213,6 @@ const execCallback = function(req, res) {
       timeCompletedFilename = '',
       vroomDataFilename = '',
       reqUUID = '';
-
-  const RESULT_DIR = args.logdir + '/result/',
-        RESULT_BASE_URL = 'http://104.198.38.65:3000/vroom/result/';
 
   vroom.stdout.on('data', data => {
     let now = new Date();

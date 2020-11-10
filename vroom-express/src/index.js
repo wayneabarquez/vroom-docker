@@ -237,12 +237,13 @@ const execCallback = function(req, res) {
         'VROOM_RESULT_URL': RESULT_BASE_URL + vroomDataFilename
       };
       solution += JSON.stringify(URL_RESULT);
+      fs.writeFileSync(RESULT_DIR + vroomDataFilename, data.toString());
     }  else {
       solution += data.toString();
+      fs.writeFileSync(RESULT_DIR + vroomDataFilename, solution);
     }   
 
     fs.writeFileSync(RESULT_DIR + timeCompletedFilename, processTimeMessage);
-    fs.writeFileSync(RESULT_DIR + vroomDataFilename, solution);
   });
 
   vroom.on('close', (code, signal) => {
@@ -283,7 +284,7 @@ app.post('/', [
 
 app.get('/vroom/result/:filename', function(req, res){
   const fileName = req.params.filename;
-  const file = `${__dirname}/result/${fileName}`;
+  const file = args.logdir + '/' + fileName;
 
   res.download(file); // Set disposition and send it.
 });
